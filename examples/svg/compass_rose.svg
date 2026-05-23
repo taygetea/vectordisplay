@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-110 -110 220 220" fill="none" stroke="currentColor">
+  <!-- Outer double ring -->
+  <circle cx="0" cy="0" r="95"/>
+  <circle cx="0" cy="0" r="92"/>
+  <!-- Inner ring (base of the rose petals) -->
+  <circle cx="0" cy="0" r="60"/>
+
+  <!-- Cardinal arms — long kite petals N/E/S/W -->
+  <polygon points="0,-78  5,-15  0,0  -5,-15"/>
+  <polygon points="78,0   15,5   0,0   15,-5"/>
+  <polygon points="0,78   5,15   0,0  -5,15"/>
+  <polygon points="-78,0 -15,5   0,0  -15,-5"/>
+
+  <!-- Intercardinal arms — smaller kites at NE/SE/SW/NW -->
+  <polygon points="50,-50  12,-3  0,0   3,-12"/>
+  <polygon points="50,50   12,3   0,0   3,12"/>
+  <polygon points="-50,50 -12,3   0,0  -3,12"/>
+  <polygon points="-50,-50 -12,-3 0,0 -3,-12"/>
+
+  <!-- 16 ticks just outside the outer ring (every 22.5°) -->
+  <line x1="0"      y1="-92"   x2="0"      y2="-99"/>
+  <line x1="35.2"   y1="-85.0" x2="37.9"   y2="-91.5"/>
+  <line x1="65.0"   y1="-65.0" x2="70.0"   y2="-70.0"/>
+  <line x1="85.0"   y1="-35.2" x2="91.5"   y2="-37.9"/>
+  <line x1="92"     y1="0"     x2="99"     y2="0"/>
+  <line x1="85.0"   y1="35.2"  x2="91.5"   y2="37.9"/>
+  <line x1="65.0"   y1="65.0"  x2="70.0"   y2="70.0"/>
+  <line x1="35.2"   y1="85.0"  x2="37.9"   y2="91.5"/>
+  <line x1="0"      y1="92"    x2="0"      y2="99"/>
+  <line x1="-35.2"  y1="85.0"  x2="-37.9"  y2="91.5"/>
+  <line x1="-65.0"  y1="65.0"  x2="-70.0"  y2="70.0"/>
+  <line x1="-85.0"  y1="35.2"  x2="-91.5"  y2="37.9"/>
+  <line x1="-92"    y1="0"     x2="-99"    y2="0"/>
+  <line x1="-85.0"  y1="-35.2" x2="-91.5"  y2="-37.9"/>
+  <line x1="-65.0"  y1="-65.0" x2="-70.0"  y2="-70.0"/>
+  <line x1="-35.2"  y1="-85.0" x2="-37.9"  y2="-91.5"/>
+
+  <!-- North marker — fleur-de-lis-y arrowhead floating above the ring -->
+  <polygon points="-4,-100  0,-108  4,-100"/>
+  <polygon points="-7,-100  0,-105  7,-100"/>
+
+  <!-- Center jewel -->
+  <circle cx="0" cy="0" r="4"/>
+  <circle cx="0" cy="0" r="1.5"/>
+</svg>

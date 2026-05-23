@@ -1,0 +1,13 @@
+[package]
+name = "vectordisplay"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wgpu = "25"
+winit = "0.30"
+pollster = "0.4"
+bytemuck = { version = "1", features = ["derive"] }
+env_logger = "0.11"
+log = "0.4"
+tungstenite = { version = "0.29", default-features = true }
