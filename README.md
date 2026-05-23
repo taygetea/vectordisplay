@@ -5,6 +5,10 @@
 A GPU-driven simulator of a classic vector CRT display in the spirit of
 the HP 1345A. Written in Rust + wgpu.
 
+https://github.com/user-attachments/assets/16717370-2db1-4338-98ba-e28b000bb97b
+
+*30-second loop of [`examples/python/demo_reel.py`](examples/python/demo_reel.py) — Clifford attractor → rotating Earth → Aizawa attractor. Crossfades are phosphor decay, not video editing.*
+
 The HP 1345A was a *separate device*. The host computer plugged into
 the back of it and sent it beam commands over a link; the display had
 no idea what was being drawn or why. This project preserves that
@@ -105,16 +109,6 @@ that parameter — same effect as the keyboard shortcuts, just visual.
 
 ![On-screen settings panel](docs/images/settings-panel.png)
 
-The shipped defaults are tuned for the look in the screenshots above,
-but the sliders go a long way. Same content, different physics:
-
-<p>
-  <img src="docs/images/messing-with-settings-1.png" width="49%" alt="Compass rose with heavily tuned settings">
-  <img src="docs/images/messing-with-settings-2.png" width="49%" alt="WarGames map with heavily tuned settings">
-</p>
-
-`0` restores the shipped defaults at any time.
-
 Current parameter values are also printed in the window title every
 quarter second. Connected WS clients receive these key presses as
 events, so you can build interactive applications.
@@ -166,13 +160,7 @@ specifically.
 
 ## Demos
 
-30 seconds of [`examples/python/demo_reel.py`](examples/python/demo_reel.py) —
-Clifford attractor → rotating Earth → Aizawa attractor → loop. The
-crossfades between segments are phosphor decay, not video editing:
-previous content keeps emitting light for ~1 second as the next demo
-starts drawing over it.
-
-https://github.com/user-attachments/assets/16717370-2db1-4338-98ba-e28b000bb97b
+[`examples/python/demo_reel.py`](examples/python/demo_reel.py) — the reel at the top of this README. Cycles Aizawa → Clifford → Earth on a loop with phosphor-driven crossfades between segments.
 
 [`examples/python/hello.py`](examples/python/hello.py) — connect and draw a rotating square.
 
@@ -189,6 +177,22 @@ https://github.com/user-attachments/assets/16717370-2db1-4338-98ba-e28b000bb97b
 [`examples/python/svg_view.py`](examples/python/svg_view.py) — display any SVG file. Pairs well with Claude, which is very good at the stroke-only-single-color SVG subset this medium can render. See [`examples/svg/README.md`](examples/svg/README.md).
 
 ![SVG compass rose rendered through svg_view.py](docs/images/compass-rose.png)
+
+---
+
+## Tuning the look
+
+The shipped defaults aim for the look in the screenshots above, but the
+sliders go a long way. The same content reads very differently when you
+push the physics — wider beam, longer persistence, heavier bloom, looser
+saturation. Press `o` on the display window to open the panel and try.
+
+<p>
+  <img src="docs/images/messing-with-settings-1.png" width="49%" alt="Compass rose with heavily tuned settings">
+  <img src="docs/images/messing-with-settings-2.png" width="49%" alt="WarGames map with heavily tuned settings">
+</p>
+
+`0` restores the shipped defaults at any time.
 
 ---
 
