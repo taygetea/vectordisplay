@@ -172,6 +172,12 @@ specifically.
 
 [`examples/python/wargames.py`](examples/python/wargames.py) — the US map shown at the top of this README. States + Great Lakes from Natural Earth, Albers projection, great-circle missile arcs from real adversary launch sites. Click to fire counter-strikes, space toggles attack mode.
 
+[`examples/python/earth.py`](examples/python/earth.py) — rotating wireframe globe. Natural Earth coastlines projected onto a unit sphere, 23.4° axial tilt, lat/lon graticule, backface culling at the limb. The continuous-motion demo of the bunch.
+
+[`examples/python/clifford.py`](examples/python/clifford.py) — 2D Clifford attractor (`x' = sin(ay) + c·cos(ax)`, `y' = sin(bx) + d·cos(by)`). Iterates ~7500 points per frame; the phosphor persistence integrates the attractor shape over a few seconds. Parameters drift slowly so the shape morphs.
+
+[`examples/python/aizawa.py`](examples/python/aizawa.py) — 3D Aizawa attractor. RK4 integration of a continuous chaotic system, ring buffer of recent orbit points, slow camera precession. Shape: a vortex with a ribbon wrapped around its top.
+
 [`examples/python/svg_view.py`](examples/python/svg_view.py) — display any SVG file. Pairs well with Claude, which is very good at the stroke-only-single-color SVG subset this medium can render. See [`examples/svg/README.md`](examples/svg/README.md).
 
 ![SVG compass rose rendered through svg_view.py](docs/images/compass-rose.png)

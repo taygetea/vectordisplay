@@ -26,8 +26,19 @@ each render frame.
 | `wargames.py`     | US map demo. Click anywhere to launch a missile from the nearest silo;     |
 |                   | space toggles a denser "attack mode". Reads cursor + click events from     |
 |                   | the back-channel.                                                          |
+| `clifford.py`     | 2D Clifford attractor; iterates millions of points over a few seconds      |
+|                   | and the persistence integrates the attractor shape. Parameters drift       |
+|                   | slowly so the shape morphs continuously.                                   |
+| `aizawa.py`       | 3D Aizawa attractor (vortex-with-a-ribbon). RK4 integration, ring buffer   |
+|                   | of recent orbit points, slow viewpoint precession.                         |
+| `earth.py`        | Rotating wireframe globe. Natural Earth 110m coastlines + 30°/30°          |
+|                   | graticule, 23.4° axial tilt, backface culling at the limb.                 |
+| `svg_view.py`     | Display a static SVG file. See `examples/svg/README.md`.                   |
+| `claude_draw.py`  | Ask Claude for an SVG and display it. Requires an Anthropic API key.       |
 | `data/usa.json`   | Pre-baked Natural Earth state outlines + city positions for wargames.      |
+| `data/world_coastline.json` | Pre-baked Natural Earth 110m coastlines for earth.py.            |
 | `bake_data.py`    | One-time script that re-generates `data/usa.json` from Natural Earth.      |
+| `bake_world.py`   | One-time script that re-generates `data/world_coastline.json`.             |
 | `bake_font.py`    | One-time script that re-generates the Hershey font subset in `hershey.py`. |
 
 You don't need to run the bake scripts unless you want different
