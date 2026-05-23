@@ -166,6 +166,16 @@ specifically.
 
 ## Demos
 
+30 seconds of [`examples/python/demo_reel.py`](examples/python/demo_reel.py) —
+Clifford attractor → rotating Earth → Aizawa attractor → loop. The
+crossfades between segments are phosphor decay, not video editing:
+previous content keeps emitting light for ~1 second as the next demo
+starts drawing over it.
+
+<video src="docs/images/demo.mp4" controls loop muted playsinline width="100%">
+  <a href="docs/images/demo.mp4">demo reel (mp4, 30s, 7.6 MB)</a>
+</video>
+
 [`examples/python/hello.py`](examples/python/hello.py) — connect and draw a rotating square.
 
 [`examples/python/spiral.py`](examples/python/spiral.py) — animated spiral with intensity variation.

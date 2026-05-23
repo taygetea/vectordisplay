@@ -2,3 +2,5 @@
 __pycache__/
 *.pyc
 .claude/
+# Untrimmed source recording (the trimmed copy under docs/images/ is committed).
+/demo.mp4
