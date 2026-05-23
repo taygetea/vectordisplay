@@ -1,5 +1,7 @@
 # Vector Display Simulator
 
+![Built-in Lissajous demo](docs/images/lissajous.png)
+
 A GPU-driven simulator of a classic vector CRT display in the spirit of
 the HP 1345A. Written in Rust + wgpu. Acts as a server: external
 processes connect over TCP or WebSocket and stream beam commands; the
@@ -90,6 +92,8 @@ While the display window has focus:
 When the settings panel is open, drag any slider with the mouse to tune
 that parameter — same effect as the keyboard shortcuts, just visual.
 
+![On-screen settings panel](docs/images/settings-panel.png)
+
 Current parameter values are also printed in the window title every
 quarter second. Connected WS clients receive these key presses as
 events, so you can build interactive applications.
@@ -125,11 +129,33 @@ goes deeper into the architecture and the GPU pipeline.
 
 ---
 
+## Background
+
+The spark for this project was Dave Plummer's video
+[*WarGames Screens: I Bought Them! Let's get them working and drawing!*](https://www.youtube.com/watch?v=JrwvIKK3D2o),
+in which he restores a pair of HP 1345A vector CRTs — the actual model
+used in the filming of WarGames (1983). Watching real beam-and-phosphor
+hardware come back to life made the goal here obvious: not stylize a
+look, but model the physics underneath it. The default Lissajous
+fallback, the WarGames demo, the P31 green tint, the intra-frame
+flicker on overloaded scenes — all of it traces back to the HP 1345A
+specifically.
+
+---
+
 ## Demos
 
-- [`examples/python/hello.py`](examples/python/hello.py) — connect and draw a rotating square
-- [`examples/python/spiral.py`](examples/python/spiral.py) — animated spiral with intensity variation
-- [`examples/python/wargames.py`](examples/python/wargames.py) — US map with click-to-launch missile trajectories, WarGames-style
+[`examples/python/hello.py`](examples/python/hello.py) — connect and draw a rotating square.
+
+[`examples/python/spiral.py`](examples/python/spiral.py) — animated spiral with intensity variation.
+
+[`examples/python/wargames.py`](examples/python/wargames.py) — US map (states + Great Lakes from Natural Earth, Albers projection) with great-circle missile arcs from real adversary launch sites. Click to fire counter-strikes, space toggles attack mode.
+
+![WarGames demo](docs/images/wargames.png)
+
+[`examples/python/svg_view.py`](examples/python/svg_view.py) — display any SVG file. Pairs well with Claude, which is very good at the stroke-only-single-color SVG subset this medium can render. See [`examples/svg/README.md`](examples/svg/README.md).
+
+![SVG compass rose rendered through svg_view.py](docs/images/compass-rose.png)
 
 ---
 
