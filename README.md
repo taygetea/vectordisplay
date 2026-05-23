@@ -1,18 +1,27 @@
 # Vector Display Simulator
 
-![Built-in Lissajous demo](docs/images/lissajous.png)
+![WarGames-style US map demo](docs/images/wargames.png)
 
 A GPU-driven simulator of a classic vector CRT display in the spirit of
-the HP 1345A. Written in Rust + wgpu. Acts as a server: external
-processes connect over TCP or WebSocket and stream beam commands; the
-display runs them through a physical model of beam scanning and
-phosphor decay.
+the HP 1345A. Written in Rust + wgpu.
 
-The goal is to **simulate, not fake**. The beam traverses each segment
-in real time. Lines drawn early in the refresh visibly decay before
-lines drawn at the end. Phosphor absorbs less excitation as it
-saturates, so density variations look right. Bloom is restrained —
-the phosphor's own glow does most of the work.
+The HP 1345A was a *separate device*. The host computer plugged into
+the back of it and sent it beam commands over a link; the display had
+no idea what was being drawn or why. This project preserves that
+separation deliberately. The simulator runs as a server. Content lives
+in other processes that connect to it over TCP or WebSocket and push
+beam commands frame by frame — exactly the role the host computer
+played in the original architecture. Content can be swapped live by
+killing one client and starting another, without touching the display.
+The wire protocol is small enough that any language can speak it; this
+repo ships Python.
+
+Beam commands then run through a physical model of beam scanning and
+phosphor decay so the display behaves the way the original hardware
+did — flicker on overload, persistence trails on moving objects,
+phosphor saturation under bright overdraw, soft beam endpoints. The
+look is emergent from the physics, not a post-effect. Want a thing it
+draws to look more "right"? Tune the physics, don't reach for filters.
 
 ```
 [your program]  ──TCP / WebSocket──►  [display server]
@@ -22,7 +31,9 @@ the phosphor's own glow does most of the work.
 ```
 
 When no client is connected, the display falls back to a built-in
-Lissajous demo.
+Lissajous demo:
+
+![Built-in Lissajous fallback](docs/images/lissajous.png)
 
 ---
 
@@ -149,9 +160,7 @@ specifically.
 
 [`examples/python/spiral.py`](examples/python/spiral.py) — animated spiral with intensity variation.
 
-[`examples/python/wargames.py`](examples/python/wargames.py) — US map (states + Great Lakes from Natural Earth, Albers projection) with great-circle missile arcs from real adversary launch sites. Click to fire counter-strikes, space toggles attack mode.
-
-![WarGames demo](docs/images/wargames.png)
+[`examples/python/wargames.py`](examples/python/wargames.py) — the US map shown at the top of this README. States + Great Lakes from Natural Earth, Albers projection, great-circle missile arcs from real adversary launch sites. Click to fire counter-strikes, space toggles attack mode.
 
 [`examples/python/svg_view.py`](examples/python/svg_view.py) — display any SVG file. Pairs well with Claude, which is very good at the stroke-only-single-color SVG subset this medium can render. See [`examples/svg/README.md`](examples/svg/README.md).
 
