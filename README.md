@@ -172,7 +172,7 @@ crossfades between segments are phosphor decay, not video editing:
 previous content keeps emitting light for ~1 second as the next demo
 starts drawing over it.
 
-![demo reel](https://github.com/user-attachments/assets/16717370-2db1-4338-98ba-e28b000bb97b)
+https://github.com/user-attachments/assets/16717370-2db1-4338-98ba-e28b000bb97b
 
 [`examples/python/hello.py`](examples/python/hello.py) — connect and draw a rotating square.
 
