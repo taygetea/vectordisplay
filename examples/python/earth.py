@@ -29,7 +29,9 @@ DATA_PATH = Path(__file__).parent / "data" / "world_coastline.json"
 
 # Visual
 SCALE = 0.78               # globe radius in NDC
-ROT_RATE = 0.18            # rad/s around Earth's spin axis
+ROT_RATE = -0.18           # rad/s around Earth's spin axis (negated so the
+                           # rotation appears eastward — see project() for the
+                           # paired x-flip that makes east map to screen-right)
 AXIAL_TILT = math.radians(23.4)  # real
 EQUATOR_INTENSITY = 0.65
 PRIME_MERIDIAN_INTENSITY = 0.65
@@ -66,8 +68,12 @@ def tilt_z(p, c, s):
 
 
 def project(p):
-    """Orthographic to NDC. y is screen-up."""
-    return (p[0] * SCALE, p[1] * SCALE)
+    """Orthographic to NDC. y is screen-up. We negate x so east maps to
+    screen-right — without this, the visible-hemisphere convention used by
+    lat_lon_to_xyz (viewer at +z looking toward origin, with the center of
+    view at lon=90°E) would have east-of-center map to negative x, mirroring
+    the globe. The paired sign flip on ROT_RATE keeps rotation eastward."""
+    return (-p[0] * SCALE, p[1] * SCALE)
 
 
 def emit_visible(frame, pts3d, intensity):

@@ -52,10 +52,14 @@ class Frame:
             self.draw_to(x, y, intensity)
 
     def dot(self, x: float, y: float, intensity: float = 1.0) -> None:
-        # Tiny segment renders as a bright spot (short segments are brighter
-        # per the beam-time-on-target physics).
-        self.move_to(x, y)
-        self.draw_to(x, y, intensity)
+        # Short non-zero horizontal segment. A literally-zero segment evaluates
+        # to brightness 0 because the integrated-gaussian-along-segment factor
+        # is 0; a tiny non-zero segment renders as a bright spot via the
+        # inverse-segment-length brightness boost. ε of ~0.0008 NDC ≈ 1 pixel
+        # at typical window sizes.
+        eps = 0.0008
+        self.move_to(x - eps, y)
+        self.draw_to(x + eps, y, intensity)
 
     def to_bytes(self) -> bytes:
         return bytes(self._buf)

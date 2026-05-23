@@ -30,11 +30,16 @@ DRIFT_FREQS = (0.040, 0.057, 0.071, 0.083)
 # How tightly to fit the attractor into NDC. Clifford with these params
 # lives in roughly [-2.5, 2.5] on each axis.
 SCALE = 0.36
-INTENSITY = 0.55  # dots are dim individually; persistence integrates them
+INTENSITY = 1.0  # bright per-dot; persistence integrates over a few frames
 
-# Iterates per frame. The display caps line instances at 8192 — leave
-# headroom so the demo never silently truncates.
-ITERS_PER_FRAME = 7500
+# Iterates per frame. The display has a hard cap of 8192 line instances,
+# but the more important constraint is beam time: each "dot" requires the
+# beam to move to it, and 7500 dots at ~0.8 NDC apart eats ~1.8s of beam
+# time per frame, so the early dots would be fully decayed by frame end.
+# 300 dots/frame keeps total beam travel under one phosphor time constant,
+# and 60 fps × 300 = 18k dots/sec accumulating over ~0.1s persistence
+# gives ~1800 dots visible at any moment — enough to read the shape.
+ITERS_PER_FRAME = 300
 
 
 def warm_up(x, y, params, n):
