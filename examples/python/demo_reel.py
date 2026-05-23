@@ -1,30 +1,33 @@
 """Combined demo reel — Aizawa → Clifford → Earth on a loop.
 
-Cycles three demos with ~1 second crossfades between them, driven by
-the phosphor persistence (previous demo lingers as a fading ghost
-while the next one comes in). Hershey-labeled at the bottom for the
-first ~4 seconds of each.
+Cycles three demos with phosphor-driven crossfades between them
+(previous demo lingers as a fading ghost while the next comes in).
+Hershey-labeled at the bottom for the first ~4 seconds of each.
 
 Designed for recording one continuous video instead of stitching three.
 
-    python demo_reel.py            # loop forever (Ctrl-C to stop)
-    python demo_reel.py --once     # run through each demo once and exit
-    python demo_reel.py --fast     # 3s per demo, no labels — for tuning the
-                                   # phosphor setting live without waiting
+    python demo_reel.py                # loop forever, 10s per demo
+    python demo_reel.py --once         # run through once and exit
+    python demo_reel.py --fast         # 3s per demo, no labels (for
+                                       # tuning the display live)
+    python demo_reel.py --duration=15  # override per-demo duration
 
-Before starting, increase the display's phosphor time constant so the
-crossfades are visible:
+The shipped render defaults are tuned for a wide range of content and
+cross-fades aren't visible at the default `phosphor_tc=0.0323` — the
+previous demo decays in ~5 frames. Tune the display first via the
+on-screen settings panel (press `o` on the display window):
 
-  - Open the on-screen settings panel (press `o` on the display window)
-  - Drag the PHOSPHOR slider to ~0.20, then close the panel (`o`)
-  - OR press `d` on the display ~10 times (each tap multiplies by 1.2)
+  Settings used for the canonical README recording:
+    WIDTH    0.0010   (slightly narrower than default)
+    SPEED    1128     (slower beam — more honest flicker on dense scenes)
+    PHOSPHOR 0.100    (~3× default — visible ~1s ghost trails)
+    MAX      1.72     (lower saturation ceiling)
+    BLOOM    0.03     (restrained — phosphor's own glow does the work)
 
-At the shipped default (`phosphor_tc = 0.0323`) the crossfade is
-invisible — previous content decays to essentially zero within ~5
-frames. At 0.20 it lingers for about a second. Press `0` to reset.
+Press `0` to reset to shipped defaults.
 
 The demos themselves remain runnable standalone — this file just
-re-implements them as small classes that share a per-frame `update()`
+re-implements them as small classes sharing an `update(t, dt) -> Frame`
 contract so the reel can swap between them cleanly.
 """
 
@@ -257,14 +260,12 @@ class EarthDemo:
 # Reel
 # ─────────────────────────────────────────────────────────────────────────────
 
-# (constructor, duration_seconds). Order chosen so it cycles cleanly: ends
-# on Earth, restarts on Aizawa — both visually distinct so the loop point
-# isn't a jarring jump.
-DEMO_SCHEDULE: List[Tuple[type, float]] = [
-    (AizawaDemo,  18.0),
-    (CliffordDemo, 18.0),
-    (EarthDemo,    18.0),
-]
+# Order chosen so it cycles cleanly: ends on Earth, restarts on Aizawa —
+# both visually distinct so the loop point isn't a jarring jump.
+DEMO_CLASSES: List[type] = [AizawaDemo, CliffordDemo, EarthDemo]
+
+# Default per-demo duration. Override with --duration=N.
+DEFAULT_DURATION = 10.0
 
 # Label timing (seconds). Fade in, hold, fade out, gone.
 LABEL_FADE_IN = 0.4
@@ -284,34 +285,44 @@ def label_intensity(t_in_demo: float) -> float:
     return 0.0
 
 
-def banner(d: VectorDisplay, demos):
+def banner(d: VectorDisplay, demos, fast: bool):
     print(f"connected; viewport {d.viewport}")
     print()
-    print("For the intended crossfade between demos, increase phosphor_tc first:")
-    print("  - On the display window: press 'o', drag PHOSPHOR slider to ~0.20")
-    print("    (or press 'd' on the display ~10 times)")
-    print("  - Press '0' to reset to shipped defaults.")
-    print()
+    if not fast:
+        print("For visible crossfades, tune the display first (press 'o' for the")
+        print("settings panel). See module docstring for the recording presets.")
+        print()
     sched = ", ".join(f"{demo.NAME} {dur:.0f}s" for demo, dur in demos)
     print(f"Schedule: {sched}")
     print("Ctrl-C to stop.")
     print()
 
 
+def parse_duration(default: float) -> float:
+    for arg in sys.argv[1:]:
+        if arg.startswith("--duration="):
+            try:
+                return float(arg.split("=", 1)[1])
+            except ValueError:
+                pass
+    return default
+
+
 async def main():
     once = "--once" in sys.argv
     fast = "--fast" in sys.argv
 
-    # In tune mode, every demo runs for 3 seconds and labels are suppressed.
-    # The point is to see the transition between segments often enough that
-    # you can dial the phosphor slider while watching.
+    # --fast forces 3s per demo and suppresses labels. Otherwise honor
+    # --duration=N if provided, else use DEFAULT_DURATION.
     if fast:
-        demos = [(cls(), 3.0) for cls, _ in DEMO_SCHEDULE]
+        duration = 3.0
     else:
-        demos = [(cls(), dur) for cls, dur in DEMO_SCHEDULE]
+        duration = parse_duration(DEFAULT_DURATION)
+
+    demos = [(cls(), duration) for cls in DEMO_CLASSES]
 
     async with VectorDisplay() as d:
-        banner(d, demos)
+        banner(d, demos, fast)
 
         demo_idx = 0
         demos[demo_idx][0].reset()
