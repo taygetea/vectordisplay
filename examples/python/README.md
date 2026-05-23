@@ -33,6 +33,11 @@ each render frame.
 |                   | of recent orbit points, slow viewpoint precession.                         |
 | `earth.py`        | Rotating wireframe globe. Natural Earth 110m coastlines + 30°/30°          |
 |                   | graticule, 23.4° axial tilt, backface culling at the limb.                 |
+| `demo_reel.py`    | Combined reel: Aizawa → Clifford → Earth on a loop, ~18s each, with        |
+|                   | Hershey labels and phosphor-driven crossfades between demos. Bump          |
+|                   | `phosphor_tc` to ~0.20 on the display first (press `o`, drag the           |
+|                   | PHOSPHOR slider) for the intended fade between segments. Use `--once`      |
+|                   | for a single ~54-second pass — handy for recording video.                  |
 | `svg_view.py`     | Display a static SVG file. See `examples/svg/README.md`.                   |
 | `claude_draw.py`  | Ask Claude for an SVG and display it. Requires an Anthropic API key.       |
 | `data/usa.json`   | Pre-baked Natural Earth state outlines + city positions for wargames.      |
