@@ -9,6 +9,8 @@ Designed for recording one continuous video instead of stitching three.
 
     python demo_reel.py            # loop forever (Ctrl-C to stop)
     python demo_reel.py --once     # run through each demo once and exit
+    python demo_reel.py --fast     # 3s per demo, no labels — for tuning the
+                                   # phosphor setting live without waiting
 
 Before starting, increase the display's phosphor time constant so the
 crossfades are visible:
@@ -282,7 +284,7 @@ def label_intensity(t_in_demo: float) -> float:
     return 0.0
 
 
-def banner(d: VectorDisplay):
+def banner(d: VectorDisplay, demos):
     print(f"connected; viewport {d.viewport}")
     print()
     print("For the intended crossfade between demos, increase phosphor_tc first:")
@@ -290,7 +292,7 @@ def banner(d: VectorDisplay):
     print("    (or press 'd' on the display ~10 times)")
     print("  - Press '0' to reset to shipped defaults.")
     print()
-    sched = ", ".join(f"{cls.NAME} {dur:.0f}s" for cls, dur in DEMO_SCHEDULE)
+    sched = ", ".join(f"{demo.NAME} {dur:.0f}s" for demo, dur in demos)
     print(f"Schedule: {sched}")
     print("Ctrl-C to stop.")
     print()
@@ -298,11 +300,18 @@ def banner(d: VectorDisplay):
 
 async def main():
     once = "--once" in sys.argv
+    fast = "--fast" in sys.argv
 
-    demos = [(cls(), dur) for cls, dur in DEMO_SCHEDULE]
+    # In tune mode, every demo runs for 3 seconds and labels are suppressed.
+    # The point is to see the transition between segments often enough that
+    # you can dial the phosphor slider while watching.
+    if fast:
+        demos = [(cls(), 3.0) for cls, _ in DEMO_SCHEDULE]
+    else:
+        demos = [(cls(), dur) for cls, dur in DEMO_SCHEDULE]
 
     async with VectorDisplay() as d:
-        banner(d)
+        banner(d, demos)
 
         demo_idx = 0
         demos[demo_idx][0].reset()
@@ -333,9 +342,10 @@ async def main():
 
             frame = demo.update(t_in_demo, 1 / 60)
 
-            li = label_intensity(t_in_demo)
-            if li > 0.01:
-                hershey.draw_string_centered(frame, demo.NAME, 0.0, -0.93, 0.038, li)
+            if not fast:
+                li = label_intensity(t_in_demo)
+                if li > 0.01:
+                    hershey.draw_string_centered(frame, demo.NAME, 0.0, -0.93, 0.038, li)
 
             try:
                 await d.send(frame)
