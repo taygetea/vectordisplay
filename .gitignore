@@ -2,5 +2,6 @@
 __pycache__/
 *.pyc
 .claude/
-# Untrimmed source recording (the trimmed copy under docs/images/ is committed).
-/demo.mp4
+# Source recordings in the repo root — the trimmed/curated copies live
+# under docs/images/ and are committed there.
+/*.mp4
