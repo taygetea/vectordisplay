@@ -105,6 +105,16 @@ that parameter — same effect as the keyboard shortcuts, just visual.
 
 ![On-screen settings panel](docs/images/settings-panel.png)
 
+The shipped defaults are tuned for the look in the screenshots above,
+but the sliders go a long way. Same content, different physics:
+
+<p>
+  <img src="docs/images/messing-with-settings-1.png" width="49%" alt="Compass rose with heavily tuned settings">
+  <img src="docs/images/messing-with-settings-2.png" width="49%" alt="WarGames map with heavily tuned settings">
+</p>
+
+`0` restores the shipped defaults at any time.
+
 Current parameter values are also printed in the window title every
 quarter second. Connected WS clients receive these key presses as
 events, so you can build interactive applications.
